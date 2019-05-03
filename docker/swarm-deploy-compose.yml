@@ -22,6 +22,7 @@ services:
     image: baotd86/workspace
     volumes:
       - ../web:/var/www/html:cached
+      - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     environment:
       - PHP_IDE_CONFIG=swarmlab
@@ -35,6 +36,7 @@ services:
       - ../web:/var/www/html:cached
       - ./logs/nginx/:/var/log/nginx
       - ./nginx/sites/:/etc/nginx/sites-available
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
       - "443:443"
@@ -49,6 +51,7 @@ services:
     volumes:
       - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
       - ../web:/var/www/html:cached
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9000:9000"
     networks:
@@ -66,6 +69,7 @@ services:
     volumes:
       - ./database/mysql:/var/lib/mysql
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3306:3306"
     networks:
