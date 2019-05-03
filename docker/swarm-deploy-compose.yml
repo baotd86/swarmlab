@@ -79,7 +79,7 @@ services:
   redis:
     image: baotd86/redis
     volumes:
-      - ./database/redis:/data:cached
+      - ./database/redis:/data
     ports:
       - "6379:6379"
     networks:
