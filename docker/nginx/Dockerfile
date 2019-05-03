@@ -12,10 +12,10 @@ RUN apk update \
     && adduser -D -H -u 1000 -s /bin/bash www-data
 
 # Set upstream conf and remove the default conf
-# RUN echo "upstream php-upstream { server php-fpm:9000; }" > /etc/nginx/conf.d/upstream.conf \
-#     && rm /etc/nginx/conf.d/default.conf
+RUN echo "upstream php-upstream { server php-fpm:9000; }" > /etc/nginx/conf.d/upstream.conf \
+    && rm /etc/nginx/conf.d/default.conf
 
-RUN rm /etc/nginx/conf.d/default.conf
+# RUN rm /etc/nginx/conf.d/default.conf
 #   && htpasswd -c /etc/nginx/.htpasswd drondocker
 CMD ["nginx"]
 
