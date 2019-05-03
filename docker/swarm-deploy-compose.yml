@@ -10,6 +10,8 @@ networks:
 volumes:
   mysql:
     driver: local
+  redis:
+    driver: local
 
 ### Define services ###############################################
 services:
@@ -30,8 +32,8 @@ services:
     image: baotd86/nginx
     volumes:
       - ../web:/var/www/html:cached
-      - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./logs/nginx/:/var/log/nginx:cached
+      - ./nginx/sites/:/etc/nginx/sites-available:cached
     ports:
       - "80:80"
       - "443:443"
@@ -44,10 +46,10 @@ services:
   php-fpm:
     image: baotd86/php-fpm
     volumes:
-      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini:cached
       - ../web:/var/www/html:cached
     expose:
-      - "9000"
+      - "9000:9000"
     networks:
       - terradrone
 
@@ -61,8 +63,8 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=UTC
     volumes:
-      - ./database/mysql:/var/lib/mysql      
-      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./database/mysql:/var/lib/mysql:cached
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:cached
     ports:
       - "3306:3306"
     networks:
@@ -72,7 +74,7 @@ services:
   redis:
     image: baotd86/redis
     volumes:
-      - ./database/redis:/data
+      - ./database/redis:/data:cached
     ports:
       - "6379:6379"
     networks:
