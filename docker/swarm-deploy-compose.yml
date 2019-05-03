@@ -24,7 +24,7 @@ services:
       - ../web:/var/www/html:cached
     tty: true
     environment:
-      - PHP_IDE_CONFIG=lemdock
+      - PHP_IDE_CONFIG=swarmlab
     networks:
       - terradrone
 
@@ -33,8 +33,8 @@ services:
     image: baotd86/nginx
     volumes:
       - ../web:/var/www/html:cached
-      - ./logs/nginx/:/var/log/nginx:cached
-      - ./nginx/sites/:/etc/nginx/sites-available:cached
+      - ./logs/nginx/:/var/log/nginx
+      - ./nginx/sites/:/etc/nginx/sites-available
     ports:
       - "80:80"
       - "443:443"
@@ -47,7 +47,7 @@ services:
   php-fpm:
     image: baotd86/php-fpm
     volumes:
-      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini:cached
+      - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
       - ../web:/var/www/html:cached
     ports:
       - "9000:9000"
@@ -64,8 +64,8 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=UTC
     volumes:
-      - ./database/mysql:/var/lib/mysql:cached
-      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:cached
+      - ./database/mysql:/var/lib/mysql
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     networks:
