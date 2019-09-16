@@ -6,3 +6,5 @@
 2019/04/24 10:22:47 [warn] 1#1: conflicting server name "localhost" on 0.0.0.0:80, ignored
 2019/04/24 10:22:47 [warn] 1#1: conflicting server name "localhost" on [::]:80, ignored
 2019/04/25 10:20:30 [emerg] 1#1: no port in upstream "php-upstream" in /etc/nginx/sites-available/app.conf:27
+2019/05/08 01:46:14 [warn] 1#1: conflicting server name "localhost" on 0.0.0.0:80, ignored
+2019/05/08 01:46:14 [warn] 1#1: conflicting server name "localhost" on [::]:80, ignored

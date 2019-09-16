@@ -168,6 +168,9 @@ RUN apt-get update -y && \
 # Check PHP version:
 ###########################################################################
 
+COPY php7.1.ini /usr/local/etc/php/php.ini
+COPY mysql.ini /usr/local/etc/php/mysql.ini
+
 RUN php -v | head -n 1 | grep -q "PHP 7.1."
 
 #
