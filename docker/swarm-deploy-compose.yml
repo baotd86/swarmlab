@@ -65,7 +65,8 @@ services:
     image: baotd86/php-fpm
     volumes:
       - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
-      - ../web:/var/www/html:cached
+      - ../account-service:/var/www/html/aircraft-service:cached
+      - ../aircraft-service:/var/www/html/account-service:cached
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9000:9000"

@@ -44,6 +44,7 @@ services:
     depends_on:
       - php-fpm
     networks:
+      - backend
       - frontend
 ### Aircraft Service #################################################
   aircraft-service:
@@ -58,14 +59,16 @@ services:
     depends_on:
       - php-fpm
     networks:
+      - backend
       - frontend
 ### PHP-PFM #################################################      
   php-fpm:
     build: ./php-fpm
     image: baotd86/php-fpm
     volumes:
-      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini
-      - ../web:/var/www/html:cached
+      - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
+      - ../account-service:/var/www/html/aircraft-service:cached
+      - ../aircraft-service:/var/www/html/account-service:cached
     expose:
       - "9000"
     extra_hosts:
