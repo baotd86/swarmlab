@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 ### Define Networks ###############################################
 
@@ -17,11 +17,12 @@ volumes:
 ### Define services ###############################################
 services:
 
-### App Server #################################################
+### Workpsace #################################################
   workspace:
     image: baotd86/workspace
     volumes:
-      - ../web:/var/www/html:cached
+      - ../account-service:/var/www/html/aircraft-service:cached
+      - ../aircraft-service:/var/www/html/account-service:cached
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     environment:
@@ -29,11 +30,11 @@ services:
     networks:
       - terradrone
 
-### NGINX Server #################################################
-  nginx:
+### Account Service #################################################
+  account-service:
     image: baotd86/nginx
     volumes:
-      - ../web:/var/www/html:cached
+      - ../account-service:/var/www/html:cached
       - ./logs/nginx/:/var/log/nginx
       - ./nginx/sites/:/etc/nginx/sites-available
       - /var/run/docker.sock:/var/run/docker.sock
@@ -44,6 +45,23 @@ services:
       - php-fpm
     networks:
       - terradrone      
+
+### Aircraft Service #################################################
+  aircraft-service:
+    image: baotd86/nginx
+    volumes:
+      - ../aircraft-service:/var/www/html:cached
+      - ./logs/nginx/:/var/log/nginx
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - terradrone      
+
 
 ### PHP-PFM #################################################      
   php-fpm:

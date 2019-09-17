@@ -1,6 +1,6 @@
 version: '3'
 
-### Define Networks ###############################################
+### Networks ###############################################
 
 networks:
   frontend:
@@ -8,15 +8,15 @@ networks:
   backend:
     driver: bridge
 
-### Define volumes ###############################################
+### Volumes ###############################################
 volumes:
   mysql:
     driver: local
 
-### Define services ###############################################
+### Services ###############################################
 services:
 
-### App Server #################################################
+### Worspace #################################################
   workspace:
     build: ./workspace
     image: baotd86/workspace
@@ -30,23 +30,35 @@ services:
     networks:
       - frontend
       - backend
-### NGINX Server #################################################
-  nginx:
+
+### Account Service #################################################
+  account-service:
     build: ./nginx
     image: baotd86/nginx
     volumes:
-      - ../web:/var/www/html:cached
+      - ../account-service:/var/www/html:cached
       - ./logs/nginx/:/var/log/nginx
       - ./nginx/sites/:/etc/nginx/sites-available
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     depends_on:
       - php-fpm
     networks:
-      - backend
       - frontend
-
+### Aircraft Service #################################################
+  aircraft-service:
+    build: ./nginx
+    image: baotd86/nginx
+    volumes:
+      - ../aircaft-service:/var/www/html:cached
+      - ./logs/nginx/:/var/log/nginx
+      - ./nginx/sites/:/etc/nginx/sites-available
+    ports:
+      - "8081:80"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
 ### PHP-PFM #################################################      
   php-fpm:
     build: ./php-fpm
