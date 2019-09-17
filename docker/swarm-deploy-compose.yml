@@ -5,7 +5,7 @@ version: '3'
 networks:
   terradrone:
     driver: overlay
-    
+
 ### Define volumes ###############################################
 volumes:
   mysql:
@@ -38,8 +38,7 @@ services:
       - ./nginx/sites/:/etc/nginx/sites-available
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     depends_on:
       - php-fpm
     networks:
@@ -54,8 +53,7 @@ services:
       - ./nginx/sites/:/etc/nginx/sites-available
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "80:80"
-      - "443:443"
+      - "8081:80"
     depends_on:
       - php-fpm
     networks:
