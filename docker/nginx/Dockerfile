@@ -8,8 +8,6 @@ COPY default.conf /etc/nginx/sites-available
 
 RUN mkdir /var/www/html
 
-COPY app.conf /etc/nginx/sites-enabled
-
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 
 RUN apk update \
