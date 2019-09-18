@@ -12,6 +12,10 @@ networks:
 volumes:
   mysql:
     driver: local
+  redis:
+    driver: local
+  www-data:
+    driver: local
 
 ### Services ###############################################
 services:
@@ -67,8 +71,7 @@ services:
     image: baotd86/php-fpm
     volumes:
       - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
-      - ../account-service:/var/www/html/aircraft-service:cached
-      - ../aircraft-service:/var/www/html/account-service:cached
+      - www-data:/var/www/html
     expose:
       - "9000"
     extra_hosts:
