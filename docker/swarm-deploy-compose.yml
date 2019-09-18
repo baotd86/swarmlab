@@ -87,7 +87,7 @@ services:
   account-service:
     image: baotd86/nginx
     volumes:
-      - ../account-service:/var/www/html/account-service:cached
+      # - ../account-service:/var/www/html/account-service:cached
       - ./logs/nginx/:/var/log/nginx
       - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
       - /var/run/docker.sock:/var/run/docker.sock

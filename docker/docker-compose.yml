@@ -36,8 +36,8 @@ services:
       - frontend
       - backend
 
-### Account Service #################################################
-  account-service:
+### NGINX Service #################################################
+  nginx:
     build: ./nginx
     image: baotd86/nginx
     volumes:
@@ -46,21 +46,6 @@ services:
       - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
     ports:
       - "8080:80"
-    depends_on:
-      - php-fpm
-    networks:
-      - backend
-      - frontend
-### Aircraft Service #################################################
-  aircraft-service:
-    build: ./nginx
-    image: baotd86/nginx
-    volumes:
-      - ../aircraft-service:/var/www/html/aircraft-service:cached
-      - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/aircraft-service.conf:/etc/nginx/sites-available/aircraft-service.conf
-    ports:
-      - "8081:80"
     depends_on:
       - php-fpm
     networks:
