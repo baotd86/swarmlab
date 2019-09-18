@@ -12,8 +12,6 @@ volumes:
     driver: local
   redis:
     driver: local
-  www-data:
-    driver: local
 
 ### Define services ###############################################
 services:

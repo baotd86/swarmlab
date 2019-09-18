@@ -4,7 +4,7 @@ LABEL maintainer="Bao Tran <bao@baotran.me>"
 
 COPY nginx.conf /etc/nginx/
 
-COPY sites/*.conf /etc/nginx/sites-available/
+# COPY sites/*.conf /etc/nginx/sites-available/
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 

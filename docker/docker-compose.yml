@@ -25,7 +25,8 @@ services:
     build: ./workspace
     image: baotd86/workspace
     volumes:
-      - ../web:/var/www/html:cached
+      - ../account-service:/var/www/html/account-service:cached
+      - ../aircraft-service:/var/www/html/aircraft-service:cached
     extra_hosts:
       - "dockerhost:10.0.75.1"    
     tty: true
@@ -40,9 +41,9 @@ services:
     build: ./nginx
     image: baotd86/nginx
     volumes:
-      - ../account-service:/var/www/html:cached
+      - ../account-service:/var/www/html/account-service:cached
       - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
     ports:
       - "8080:80"
     depends_on:
@@ -55,9 +56,9 @@ services:
     build: ./nginx
     image: baotd86/nginx
     volumes:
-      - ../aircaft-service:/var/www/html:cached
+      - ../aircraft-service:/var/www/html/aircraft-service:cached
       - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/sites/aircraft-service.conf:/etc/nginx/sites-available/aircraft-service.conf
     ports:
       - "8081:80"
     depends_on:
@@ -71,7 +72,8 @@ services:
     image: baotd86/php-fpm
     volumes:
       - ./php-fpm/php7.1.ini:/usr/local/etc/php/php.ini
-      - www-data:/var/www/html
+      - ../account-service:/var/www/html/account-service:cached
+      - ../aircraft-service:/var/www/html/aircraft-service:cached
     expose:
       - "9000"
     extra_hosts:
