@@ -60,6 +60,12 @@ services:
       - "3306:3306"
     networks:
       - terradrone
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
 
 ### Redis ################################################
   redis:
@@ -70,7 +76,12 @@ services:
       - "6379:6379"
     networks:
       - terradrone
-
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
 
 ### Account Service #################################################
   account-service:
@@ -87,7 +98,6 @@ services:
     networks:
       - terradrone
     deploy:
-      mode: global
       replicas: 3
       resources:
         limits:
@@ -112,7 +122,6 @@ services:
     networks:
       - terradrone
     deploy:
-      mode: global
       replicas: 3
       resources:
         limits:
