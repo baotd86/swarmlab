@@ -86,10 +86,7 @@ services:
 ### Account Service #################################################
   account-service:
     image: baotd86/nginx
-    volumes:
-      # - ../account-service:/var/www/html/account-service:cached
-      - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
+    volumes:    
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:80"
