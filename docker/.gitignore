@@ -1,1 +1,7 @@
 /log
+/database/mysql/*
+/database/redis/*
+/database/mysql/**/*
+/database/redis/**/*
+!/database/mysql
+!/database/redis
