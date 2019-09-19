@@ -28,6 +28,13 @@ services:
       - PHP_IDE_CONFIG=swarmlab
     networks:
       - terradrone
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+        
 ### PHP-PFM #################################################      
   php-fpm:
     image: baotd86/php-fpm
