@@ -1,4 +1,6 @@
 mysql/*
 redis/*
+mysql/**/*
+redis/**/*
 !mysql
 !redis
