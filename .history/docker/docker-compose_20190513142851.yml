@@ -1,0 +1,93 @@
+version: '3'
+
+### Define Networks ###############################################
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+### Define volumes ###############################################
+volumes:
+  mysql:
+    driver: local
+
+### Define services ###############################################
+services:
+
+### App Server #################################################
+  workspace:
+    build: ./workspace
+    image: baotd86/workspace
+    volumes:
+      - ../web:/var/www/html:cached
+    extra_hosts:
+      - "dockerhost:10.0.75.1"    
+    tty: true
+    environment:
+      - PHP_IDE_CONFIG=lemdock
+    networks:
+      - frontend
+      - backend
+### NGINX Server #################################################
+  nginx:
+    build: ./nginx
+    image: baotd86/nginx
+    volumes:
+      - ../web:/var/www/html:cached
+      - ./logs/nginx/:/var/log/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - backend
+      - frontend
+
+### PHP-PFM #################################################      
+  php-fpm:
+    build: ./php-fpm
+    image: baotd86/php-fpm
+    volumes:
+      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini
+      - ../web:/var/www/html:cached
+    expose:
+      - "9000"
+    extra_hosts:
+      - "dockerhost:10.0.75.1"
+    networks:
+      - backend
+
+### MySQL #################################################
+  mysql:
+    build:
+      context: ./mysql
+      args:
+        - MYSQL_VERSION=5.7
+    image: baotd86/mysql
+    environment:
+      - MYSQL_DATABASE=phpdock
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=UTC
+    volumes:
+      - ./database/mysql:/var/lib/mysql      
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+### Redis ################################################
+  redis:
+    build: ./redis
+    image: baotd86/redis
+    volumes:
+      - ./database/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend

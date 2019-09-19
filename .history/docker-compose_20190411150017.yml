@@ -1,0 +1,16 @@
+version: '3'
+
+### Define Networks ###############################################
+
+networks:  
+  webnet:
+
+### Define volumes ###############################################
+volumes:
+  mysql:
+    driver: local
+
+### Define services ###############################################
+services:
+  python:
+    image: bao/

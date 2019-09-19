@@ -1,0 +1,79 @@
+version: '3.7'
+
+### Define Networks ###############################################
+
+networks:
+  terradrone:
+    driver: overlay  
+
+### Define volumes ###############################################
+volumes:
+  mysql:
+    driver: local
+
+### Define services ###############################################
+services:
+
+### App Server #################################################
+  workspace:
+    image: baotd86/workspace
+    volumes:
+      - ../web:/var/www/html:cached
+    tty: true
+    environment:
+      - PHP_IDE_CONFIG=lemdock
+    networks:
+      - terradrone
+
+### NGINX Server #################################################
+  nginx:
+    image: baotd86/nginx
+    volumes:
+      - ../web:/var/www/html:cached
+      - ./logs/nginx/:/var/log/nginx
+      - ./nginx/sites/:/etc/nginx/sites-available
+    ports:
+      - "80"
+      - "443"
+    depends_on:
+      - php-fpm
+    networks:
+      - terradrone      
+
+### PHP-PFM #################################################      
+  php-fpm:
+    image: baotd86/php-fpm
+    volumes:
+      - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini
+      - ../web:/var/www/html:cached
+    expose:
+      - "9000"
+    networks:
+      - terradrone
+
+### MySQL #################################################
+  mysql:
+    image: baotd86/mysql
+    environment:
+      - MYSQL_DATABASE=phpdock
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=UTC
+    volumes:
+      - ./database/mysql:/var/lib/mysql      
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306"
+    networks:
+      - terradrone
+
+### Redis ################################################
+  redis:
+    image: baotd86/redis
+    volumes:
+      - ./database/redis:/data
+    ports:
+      - "6379"
+    networks:
+      - terradrone
