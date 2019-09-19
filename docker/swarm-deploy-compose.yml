@@ -94,9 +94,9 @@ services:
   account-service:
     image: baotd86/nginx
     volumes:
-      - ../account-service:/var/www/html/account-service:cached
-      - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
+      # - ../account-service:/var/www/html/account-service:cached
+      # - ./logs/nginx/:/var/log/nginx
+      # - ./nginx/sites/account-service.conf:/etc/nginx/sites-available/account-service.conf
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:80"
@@ -118,9 +118,9 @@ services:
   aircraft-service:
     image: baotd86/nginx
     volumes:
-      - ../aircraft-service:/var/www/html/aircraft-service:cached
-      - ./logs/nginx/:/var/log/nginx
-      - ./nginx/sites/aircraft-service.conf:/etc/nginx/sites-available/aircraft-service.conf
+      # - ../aircraft-service:/var/www/html/aircraft-service:cached
+      # - ./logs/nginx/:/var/log/nginx
+      # - ./nginx/sites/aircraft-service.conf:/etc/nginx/sites-available/aircraft-service.conf
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8081:80"
